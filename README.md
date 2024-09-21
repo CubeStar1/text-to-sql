@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Natural Language SQL Query Generator
 
-## Getting Started
+This application allows users to generate SQL queries using natural language input. It connects to a database (or uses a mock database) and provides an interface for users to ask questions in plain English, which are then converted into SQL queries and executed against the database.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Natural language to SQL query conversion
+- Database connection management
+- Mock database option for testing
+- Real-time query results display
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Architecture
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Frontend:
+  - Next.js for server-side rendering and API routes
+  - Tailwind CSS for styling
+  - Shadcn/UI for components
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Backend:
+  - FastAPI for handling database connections and text-to-SQL conversion
+  - Python for backend logic
+  - OpenAI for text-to-SQL conversion
+  
 
-## Learn More
+- Key Components:
+  - `QueryInput.tsx`: Main component managing state and user interactions
+  - `DatabaseConnection.tsx`: Handles database connection UI and logic
+  - `QueryForm.tsx`: Manages the query input form
+  - `QueryResults.tsx`: Displays the SQL query and results
+  - `db-structure/route.ts`: Next.js API route for fetching database structure
+  - `proxy/route.ts`: Next.js API route for communicating with FastAPI backend
+  - FastAPI backend: Handles database connections and text-to-SQL conversion
 
-To learn more about Next.js, take a look at the following resources:
+## Installation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/CubeStar1/text-to-sql.git
+   cd text-to-sql
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Install frontend dependencies:
+   ```bash
+   npm install
+   ```
 
-## Deploy on Vercel
+3. Set up frontend environment variables:
+   Create a `.env.local` file in the root directory and add:
+   ```bash
+   API_URL=http://localhost:8000  # FastAPI backend URL
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. Install backend dependencies:
+- Clone the backend repository:
+   ```bash
+   git clone https://github.com/CubeStar1/N2SQL-API.git
+   cd N2SQL-API
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. Install backend dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+5. Set up backend environment variables:
+   Create a `.env` file in the `N2SQL-API` directory and add necessary variables.
+   ```bash
+   OPENAI_API_KEY=<your-openai-api-key>
+   ```
+
+## Usage
+
+1. Start the FastAPI backend:
+   ```bash
+   cd N2SQL-API
+   uvicorn main:app --reload
+   ```
+
+2. In a new terminal, start the Next.js frontend:
+   ```bash
+   npm run dev
+   ```
+
+3. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+4. Choose to use a mock database or connect to your own database.
+
+5. If using your own database, enter the connection details.
+
+6. Click "Connect" to establish a database connection.
+
+7. Enter a natural language query in the text area.
+
+8. Click "Generate SQL" to convert your query to SQL and execute it.
+
+9. View the results displayed below the query input.
+
+
