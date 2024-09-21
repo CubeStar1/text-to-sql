@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
+    console.error('Error fetching DB structure:', error);
     return NextResponse.json(
       { error: 'An error occurred while fetching the database structure' },
       { status: 500 }
