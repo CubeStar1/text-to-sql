@@ -12,13 +12,12 @@ export function QueryForm({ question, setQuestion, handleSubmit, isLoading }: Qu
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <Textarea
+        placeholder="Enter your question here..."
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
-        placeholder="Enter your question about the data..."
-        className="w-full"
-        rows={4}
+        className="min-h-[100px]"
       />
-      <Button type="submit" disabled={isLoading} className="w-full">
+      <Button type="submit" disabled={isLoading}>
         {isLoading ? 'Generating...' : 'Generate SQL'}
       </Button>
     </form>

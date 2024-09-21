@@ -1,12 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { Checkbox } from "@/components/ui/checkbox"
 import { DatabaseConnection } from './DatabaseConnection';
 import { DatabaseStructure } from './DatabaseStructure';
 import { QueryForm } from './QueryForm';
 import { QueryResults } from './QueryResults';
 import { useToast } from '@/hooks/use-toast';
+import { Button } from "@/components/ui/button";
 
 export default function NaturalLanguageQueryInput() {
   const [dbCredentials, setDbCredentials] = useState({
@@ -16,6 +18,7 @@ export default function NaturalLanguageQueryInput() {
     db_port: '',
     db_name: ''
   });
+  const [useMockDb, setUseMockDb] = useState(false);
   const [question, setQuestion] = useState('');
   const [sqlQuery, setSqlQuery] = useState('');
   const [queryResults, setQueryResults] = useState<any[] | null>(null);
@@ -26,6 +29,27 @@ export default function NaturalLanguageQueryInput() {
 
   const handleCredentialChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDbCredentials({ ...dbCredentials, [e.target.name]: e.target.value });
+  };
+
+  const handleUseMockDbChange = (checked: boolean) => {
+    setUseMockDb(checked);
+    if (checked) {
+      setDbCredentials({
+        db_user: 'postgres.jseojlyregwrpqqhnxfc',
+        db_password: 'easysqlpassword123#',
+        db_host: 'aws-0-ap-south-1.pooler.supabase.com',
+        db_port: '6543',
+        db_name: 'postgres'
+      });
+    } else {
+      setDbCredentials({
+        db_user: '',
+        db_password: '',
+        db_host: '',
+        db_port: '',
+        db_name: ''
+      });
+    }
   };
 
   const handleConnect = async () => {
@@ -97,14 +121,38 @@ export default function NaturalLanguageQueryInput() {
     }
   };
 
+  const sampleQuery = "Show me all the launch vehicles between 2001 and 2016";
+
+  const handleSampleQuery = () => {
+    setQuestion(sampleQuery);
+  };
+
   return (
     <div className="flex flex-col lg:flex-row gap-6 p-4 lg:p-0">
       <div className="w-full lg:w-1/3">
+        <Card className="mb-6">
+          <CardContent className="pt-6">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="use-mock-db"
+                checked={useMockDb}
+                onCheckedChange={handleUseMockDbChange}
+              />
+              <label
+                htmlFor="use-mock-db"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Use Mock Database
+              </label>
+            </div>
+          </CardContent>
+        </Card>
         <DatabaseConnection 
           dbCredentials={dbCredentials} 
           handleCredentialChange={handleCredentialChange} 
           handleConnect={handleConnect}
           isConnecting={isConnecting}
+          useMockDb={useMockDb}
         />
         <DatabaseStructure dbStructure={dbStructure} />
       </div>
@@ -114,6 +162,15 @@ export default function NaturalLanguageQueryInput() {
           <CardTitle>Natural Language SQL Query</CardTitle>
         </CardHeader>
         <CardContent>
+          {useMockDb && (
+            <Button 
+              onClick={handleSampleQuery} 
+              variant="outline" 
+              className="mb-4"
+            >
+              Use Sample Query
+            </Button>
+          )}
           <QueryForm 
             question={question}
             setQuestion={setQuestion}

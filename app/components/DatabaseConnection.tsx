@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
 
 interface DatabaseConnectionProps {
   dbCredentials: {
@@ -13,56 +14,40 @@ interface DatabaseConnectionProps {
   handleCredentialChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleConnect: () => void;
   isConnecting: boolean;
+  useMockDb: boolean;
 }
 
-export function DatabaseConnection({ 
-  dbCredentials, 
-  handleCredentialChange, 
+export function DatabaseConnection({
+  dbCredentials,
+  handleCredentialChange,
   handleConnect,
-  isConnecting 
+  isConnecting,
+  useMockDb
 }: DatabaseConnectionProps) {
   return (
-    <Card className="w-full">
+    <Card className="mb-6">
       <CardHeader>
         <CardTitle>Database Connection</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
-          <Input
-            name="db_user"
-            value={dbCredentials.db_user}
-            onChange={handleCredentialChange}
-            placeholder="Database User"
-          />
-          <Input
-            name="db_password"
-            type="password"
-            value={dbCredentials.db_password}
-            onChange={handleCredentialChange}
-            placeholder="Database Password"
-          />
-          <Input
-            name="db_host"
-            value={dbCredentials.db_host}
-            onChange={handleCredentialChange}
-            placeholder="Database Host"
-          />
-          <Input
-            name="db_port"
-            value={dbCredentials.db_port}
-            onChange={handleCredentialChange}
-            placeholder="Database Port"
-          />
-          <Input
-            name="db_name"
-            value={dbCredentials.db_name}
-            onChange={handleCredentialChange}
-            placeholder="Database Name"
-          />
-          <Button onClick={handleConnect} disabled={isConnecting} className="w-full">
+        <form className="space-y-4">
+          {Object.entries(dbCredentials).map(([key, value]) => (
+            <div key={key} className="space-y-2">
+              <Label htmlFor={key}>{key.replace('_', ' ').toUpperCase()}</Label>
+              <Input
+                type={key.includes('password') ? 'password' : 'text'}
+                id={key}
+                name={key}
+                value={value}
+                onChange={handleCredentialChange}
+                disabled={useMockDb}
+              />
+            </div>
+          ))}
+          <Button onClick={handleConnect} disabled={isConnecting}>
             {isConnecting ? 'Connecting...' : 'Connect'}
           </Button>
-        </div>
+        </form>
       </CardContent>
     </Card>
   );
