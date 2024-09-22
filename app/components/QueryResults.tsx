@@ -11,7 +11,7 @@ export function QueryResults({ sqlQuery, queryResults }: QueryResultsProps) {
       {sqlQuery && (
         <div className="mt-4">
           <h2 className="text-xl font-semibold mb-2">Generated SQL:</h2>
-          <pre className="bg-secondary p-4 rounded text-sm">{sqlQuery}</pre>
+          <pre className="bg-secondary p-4 rounded text-sm overflow-x-auto">{sqlQuery}</pre>
         </div>
       )}
       
