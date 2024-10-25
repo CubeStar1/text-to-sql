@@ -1,6 +1,8 @@
 # Natural Language SQL Query Generator
 
 This application allows users to generate SQL queries using natural language input. It connects to a database (or uses a mock database) and provides an interface for users to ask questions in plain English, which are then converted into SQL queries and executed against the database.
+
+
 ![Screenshot](https://github.com/CubeStar1/text-to-sql/blob/master/public/easysql-landing.png)
 
 ![Screenshot](https://github.com/CubeStar1/text-to-sql/blob/master/public/easysql-chat.png)
