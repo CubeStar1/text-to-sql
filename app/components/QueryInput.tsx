@@ -9,6 +9,7 @@ import { QueryForm } from './QueryForm';
 import { QueryResults } from './QueryResults';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from "@/components/ui/button";
+import { LLMSelector } from './LLMSelector';
 
 export default function NaturalLanguageQueryInput() {
   const [dbCredentials, setDbCredentials] = useState({
@@ -25,6 +26,7 @@ export default function NaturalLanguageQueryInput() {
   const [isLoading, setIsLoading] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [dbStructure, setDbStructure] = useState<{[key: string]: string[]}|null>(null);
+  const [llmChoice, setLlmChoice] = useState('openai');
   const { toast } = useToast()
 
   const handleCredentialChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,12 +90,14 @@ export default function NaturalLanguageQueryInput() {
     setIsLoading(true);
 
     try {
+      console.log("LLM choice:", llmChoice);
       const response = await fetch('/api/proxy', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           question,
-          db_credentials: dbCredentials
+          db_credentials: dbCredentials,
+          llm_choice: llmChoice
         }),
       });
 
@@ -127,12 +131,17 @@ export default function NaturalLanguageQueryInput() {
     setQuestion(sampleQuery);
   };
 
+  const handleLlmChange = (value: string) => {
+    console.log("LLM changed to:", value); // Add this line for debugging
+    setLlmChoice(value);
+  };
+
   return (
     <div className="flex flex-col lg:flex-row gap-6 p-4 lg:p-0">
       <div className="w-full lg:w-1/3">
         <Card className="mb-6">
           <CardContent className="pt-6">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 mb-4">
               <Checkbox
                 id="use-mock-db"
                 checked={useMockDb}
@@ -144,6 +153,10 @@ export default function NaturalLanguageQueryInput() {
               >
                 Use Mock Database
               </label>
+            </div>
+            <div className="mt-4">
+              <label className="block text-sm font-medium mb-2">Select LLM Model</label>
+              <LLMSelector value={llmChoice} onChange={handleLlmChange} />
             </div>
           </CardContent>
         </Card>

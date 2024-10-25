@@ -25,7 +25,7 @@ export function DatabaseConnection({
   useMockDb
 }: DatabaseConnectionProps) {
   return (
-    <Card className="mb-6">
+    <Card className="">
       <CardHeader>
         <CardTitle>Database Connection</CardTitle>
       </CardHeader>

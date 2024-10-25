@@ -27,7 +27,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          <main className="container mx-auto py-6 px-4 lg:px-6">
+          <main className="mx-auto py-6 px-4 lg:px-4">
             {children}
           </main>
           <Toaster />

@@ -31,7 +31,7 @@ export function Header() {
       <div className="flex h-16 items-center justify-between px-4 max-w-10xl mx-auto">
         <div className="flex items-center">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="text-xl font-bold">NL to SQL Query</span>
+            <span className="text-xl font-bold">EasySQL</span>
           </Link>
         </div>
         <NavigationMenu>
