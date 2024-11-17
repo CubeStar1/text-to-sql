@@ -12,11 +12,9 @@ export async function POST(req: Request) {
     let dbPath;
     if (useCustomDB) {
       dbPath = path.join(process.cwd(), 'uploaded2.sqlite');
-      // Check if the custom database file exists
       try {
         await fs.access(dbPath);
       } catch {
-        // If the file doesn't exist, return an empty result
         return NextResponse.json({ results: [] });
       }
     } else {

@@ -28,12 +28,7 @@ This application allows users to generate SQL queries using natural language inp
   - Python for backend logic
   - OpenAI for text-to-SQL conversion
   
-
-- Components:
-  - `QueryInput.tsx`: Main component managing state and user interactions
-  - `DatabaseConnection.tsx`: Handles database connection UI and logic
-  - `QueryForm.tsx`: Manages the query input form
-  - `QueryResults.tsx`: Displays the SQL query and results
+- API Routes:
   - `db-structure/route.ts`: Next.js API route for fetching database structure
   - `proxy/route.ts`: Next.js API route for communicating with FastAPI backend
   - FastAPI backend: Handles database connections and text-to-SQL conversion

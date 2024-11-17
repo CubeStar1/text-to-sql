@@ -132,7 +132,7 @@ export default function NaturalLanguageQueryInput() {
   };
 
   const handleLlmChange = (value: string) => {
-    console.log("LLM changed to:", value); // Add this line for debugging
+    console.log("LLM changed to:", value); 
     setLlmChoice(value);
   };
 
